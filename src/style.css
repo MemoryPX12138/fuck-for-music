@@ -1,0 +1,197 @@
+/* ============================================================
+   Fuck For Music —— Design System V3 · 对比度重构
+   原则：对比优先 / 单一强调 / 层级留白 / 克制材质
+   分层用色：装饰层保留莫兰迪中间调，交互层 WCAG AA 校准，
+             信息层文字使用暖调近黑（对比 14.2:1）。
+   ============================================================ */
+:root {
+  /* ── 中性色 · 由浅至深七阶 ── */
+  --canvas: #f5f3ed;      /* 燕麦底（页面背景） */
+  --panel: #fbfaf6;       /* 面板（分组容器） */
+  --card: #ffffff;        /* 卡片（内容表面） */
+  --line: #e6e2d5;        /* 发丝线（1px 分隔/描边） */
+  --ink-faint: #756e60;   /* 弱文字（仅限 ≥13px，4.6:1） */
+  --ink-soft: #5c574d;    /* 次文字（7.0:1） */
+  --ink: #23211c;         /* 主文字（14.2:1） */
+
+  /* ── 品牌色 · 三族三层（浅底 Tint / 装饰 / 交互深色 Deep） ── */
+  --sage-tint: #e9eee8;  --sage: #9caf9f;  --sage-deep: #4a6651; /* 主行动色 7.5:1 */
+  --mist-tint: #e9edf1;  --mist: #a7b8c8;  --mist-deep: #4a6478; /* 6.3:1 */
+  --clay-tint: #f2e9e7;  --clay: #c9a9a6;  --clay-deep: #9a5a52; /* 5.9:1 */
+
+  /* ── 语义状态 · 浅底深字组合 ── */
+  --wait-tint: #efede6;  --wait: #8a8375;
+  --run-tint: #e8edf3;   --run: #44688f;   /* 进行态 */
+  --ok-tint: #e7f0e8;    --ok: #3f7a4f;
+  --bad-tint: #f5e8e6;   --bad: #b34a3e;
+
+  /* ── 语义化 ── */
+  --on-accent: #ffffff;          /* 强调色上的文字 */
+  --accent-hover: #415b48;       /* sageDeep 加深 ~6% */
+  --shadow: 0 2px 6px rgba(90, 85, 70, 0.06), 0 8px 24px rgba(90, 85, 70, 0.10); /* 仅浮层/弹窗 */
+  --scrollbar: rgba(117, 110, 96, 0.32);
+
+  /* ── 圆角五档 ── */
+  --r-xs: 6px;    /* 小标签/小图 */
+  --r-sm: 10px;   /* 输入框/头像/徽章 */
+  --r-md: 16px;   /* 卡片/看板项 */
+  --r-lg: 24px;   /* 弹窗/大面板 */
+  --r-pill: 999px;/* 胶囊按钮/chips */
+
+  /* ── 间距标尺（4px 基准八档） ── */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+  /* ── 字体栈：西文 SF Pro → Inter；中文 PingFang SC → Noto Sans SC ── */
+  --font-sans: "SF Pro Display", "SF Pro Text", "Inter", -apple-system,
+    BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "HarmonyOS Sans SC",
+    "Microsoft YaHei UI", sans-serif;
+}
+
+:root[data-theme="dark"] {
+  /* 中性 · 整体压暗一档 */
+  --canvas: #1b1a17;
+  --panel: #232220;
+  --card: #2b2926;
+  --line: #3b3833;
+  --ink-faint: #9a948c;
+  --ink-soft: #b8b2a6;
+  --ink: #edeae1;
+
+  /* 品牌 · 暗色反转取值 */
+  --sage-tint: #2b332c;  --sage: #7e9483;  --sage-deep: #9db8a2; /* 反转为浅绿 */
+  --mist-tint: #2a313a;  --mist: #7f93a8;  --mist-deep: #9fb4cc;
+  --clay-tint: #362b28;  --clay: #b98f8c;  --clay-deep: #c98f86;
+
+  /* 语义状态 · 暗色浅底深字 */
+  --wait-tint: #322f28;  --wait: #a39c8d;
+  --run-tint: #2a3442;   --run: #8fb0d6;
+  --ok-tint: #28352a;    --ok: #7fb88a;
+  --bad-tint: #3a2a27;   --bad: #d08578;
+
+  /* 语义化 */
+  --on-accent: #1b1a17;          /* 浅绿强调色上配深色文字 */
+  --accent-hover: #abc4b2;       /* 暗色下悬停改为提亮 */
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.30), 0 8px 24px rgba(0, 0, 0, 0.40);
+  --scrollbar: rgba(237, 234, 225, 0.22);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #app { height: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 17px;               /* Body */
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.2px;        /* ≥17px 一律负字距 */
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(167, 184, 200, 0.20), transparent 60%),
+    radial-gradient(900px 450px at -10% 110%, rgba(156, 175, 159, 0.18), transparent 60%),
+    var(--canvas);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* 暗色渐变仅降低装饰强度 */
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(1200px 500px at 85% -10%, rgba(120, 138, 158, 0.14), transparent 60%),
+    radial-gradient(900px 450px at -10% 110%, rgba(126, 148, 131, 0.12), transparent 60%),
+    var(--canvas);
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+/* ── 按钮（高 40 胶囊系）· 统一四态：默认/悬停/按压/禁用 ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2);
+  height: 40px; padding: 0 20px; border-radius: var(--r-pill);
+  font-size: 17px; font-weight: 600; line-height: 1; letter-spacing: -0.2px;
+  white-space: nowrap;
+  transition: transform 0.15s ease, background-color 0.15s ease,
+    color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.btn:active:not(:disabled) { transform: scale(0.97); }
+
+.btn-primary { background: var(--sage-deep); color: var(--on-accent); }
+.btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+
+.btn-secondary { background: var(--card); color: var(--sage-deep); border: 1.5px solid var(--sage-deep); }
+.btn-secondary:hover:not(:disabled) { background: var(--sage-tint); }
+
+.btn-ghost { background: transparent; color: var(--ink-soft); border: 1px solid var(--line); }
+.btn-ghost:hover:not(:disabled) { background: var(--card); color: var(--ink); }
+
+.btn-danger { background: var(--bad); color: var(--on-accent); }
+.btn-danger:hover:not(:disabled) { filter: brightness(0.94); }
+
+.btn:disabled { background: var(--line); color: var(--ink-faint); border-color: transparent; cursor: not-allowed; }
+
+/* 文字链接：sageDeep，悬停下划线 */
+.text-link { color: var(--sage-deep); background: none; }
+.text-link:hover { text-decoration: underline; }
+
+/* 图标按钮：40×40 圆形，panel 底 + 发丝线 */
+.icon-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-grid; place-items: center;
+  background: var(--panel); color: var(--ink-soft);
+  border: 1px solid var(--line);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.icon-btn:hover { background: var(--card); color: var(--ink); }
+.icon-btn:active { transform: scale(0.97); }
+
+/* ── 卡片：1px 发丝线 + 零投影，层级来自表面明度差 ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+/* ── 输入框（标签在上，高 40 圆角 10） ── */
+input[type="text"], input[type="password"], input[type="number"], select {
+  font-family: inherit; font-size: 15px; line-height: 22px; letter-spacing: -0.1px;
+  color: var(--ink); background: var(--card);
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  height: 40px; padding: 0 12px; outline: none; user-select: text;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+input::placeholder { color: var(--ink-faint); }
+input[type="text"]:focus, input[type="password"]:focus, input[type="number"]:focus, select:focus {
+  border-color: var(--sage-deep);
+  box-shadow: 0 0 0 0.5px var(--sage-deep); /* 与 1px 描边合成聚焦态 1.5px */
+}
+input[type="text"]:disabled, input[type="password"]:disabled, input[type="number"]:disabled {
+  color: var(--ink-faint); background: var(--panel);
+}
+
+/* ── 开关 Toggle（48×28，200ms 弹性缓动） ── */
+.toggle {
+  position: relative; width: 48px; height: 28px; flex-shrink: 0;
+  border-radius: var(--r-pill); background: var(--line);
+  transition: background-color 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toggle::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--card); box-shadow: 0 1px 3px rgba(90, 85, 70, 0.28);
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.toggle.on { background: var(--sage-deep); }
+.toggle.on::after { transform: translateX(20px); }
+.toggle:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── 滚动条 ── */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 8px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); background-clip: content-box; border: 3px solid transparent; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ── 过渡 ── */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.18s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }

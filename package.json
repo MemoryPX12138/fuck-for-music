@@ -1,0 +1,69 @@
+{
+  "name": "fuck-for-music",
+  "productName": "Fuck For Music",
+  "version": "3.2.0",
+  "description": "让音乐回归原本的样子",
+  "main": "electron/main.mjs",
+  "author": "Fuck For Music",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "dev:electron": "electron . --dev",
+    "build:ui": "vite build",
+    "build:win": "vite build && electron-packager . \"Fuck For Music\" --platform=win32 --arch=x64 --out=dist_electron --overwrite --asar.unpackDir=\"node_modules/ffmpeg-static\" --app-version=3.2.0 --ignore=\"^/dist_electron\" --ignore=\"^/NVIDIA Corporation\" --ignore=\"^/\\.git\" --ignore=\"^/\\.workbuddy\" --ignore=\"^/docs\" --ignore=\"^/_\" --ignore=\"^/\\.sza-patch\"",
+    "build:installer": "node tools/make-installer.cjs",
+    "build:win-full": "npm run build:win && npm run build:installer",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "@xhacker/kgmwasm": "^1.0.0",
+    "@xhacker/qmcwasm": "^1.0.0",
+    "crypto-js": "^4.2.0",
+    "electron-packager": "^17.1.2",
+    "ffmpeg-static": "^5.3.0",
+    "iconv-lite": "^0.6.3",
+    "music-metadata": "^11.15.0",
+    "webdav": "^5.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "vite": "^6.0.7",
+    "vue": "^3.5.13"
+  },
+  "build": {
+    "appId": "com.fuckformusic.app",
+    "productName": "Fuck For Music",
+    "directories": {
+      "output": "dist_electron"
+    },
+    "files": [
+      "electron/**",
+      "dist/**"
+    ],
+    "asarUnpack": [
+      "electron/**",
+      "node_modules/@xhacker/**",
+      "node_modules/webdav/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Fuck For Music"
+    }
+  }
+}
